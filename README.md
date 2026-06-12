@@ -18,56 +18,61 @@ A scalable URL shortener and analytics platform built with modern web technologi
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
+| Layer    | Technology                         |
+| -------- | ---------------------------------- |
 | Frontend | Next.js 16, Tailwind CSS, Recharts |
-| Backend | Node.js, Express.js |
-| Database | PostgreSQL 15 |
-| Cache | Redis 8 |
-| Auth | JWT, bcrypt |
+| Backend  | Node.js, Express.js                |
+| Database | PostgreSQL 15                      |
+| Cache    | Redis 8                            |
+| Auth     | JWT, bcrypt                        |
 
 ## 🏗️ System ArchitectureClient (Next.js)
+
 ↓ JWT
 Express API (Node.js)
-↓              ↓
-Redis           PostgreSQL
-(cache)         (persistent)
+↓ ↓
+Redis PostgreSQL
+(cache) (persistent)
 **Redirect flow:**
+
 1. Request hits GET /:shortCode
 2. Check Redis cache first (~2ms)
 3. Cache miss → query PostgreSQL (~20ms) → write to cache
 4. Log click to clicks table
 5. 302 redirect to original URL
 
-## 📁 Project Structurelinkforge/
+## 📁 Project Structure
+
+linkforge/
 ├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   ├── db.js              # PostgreSQL connection pool
-│   │   │   └── redis.js           # Redis client
-│   │   ├── middleware/
-│   │   │   ├── auth.js            # JWT verification
-│   │   │   ├── rateLimiter.js     # Redis-based rate limiting
-│   │   │   └── errorHandler.js
-│   │   ├── routes/
-│   │   │   ├── auth.js            # POST /register, /login
-│   │   │   ├── urls.js            # CRUD for URLs
-│   │   │   ├── analytics.js       # GET /analytics/:id
-│   │   │   └── redirect.js        # GET /:shortCode
-│   │   └── services/
-│   │       ├── cache.js           # Redis cache logic
-│   │       └── shortener.js       # Short code generation
-│   └── migrations/
-│       └── 001_init.sql           # DB schema + indexes
+│ ├── src/
+│ │ ├── config/
+│ │ │ ├── db.js # PostgreSQL connection pool
+│ │ │ └── redis.js # Redis client
+│ │ ├── middleware/
+│ │ │ ├── auth.js # JWT verification
+│ │ │ ├── rateLimiter.js # Redis-based rate limiting
+│ │ │ └── errorHandler.js
+│ │ ├── routes/
+│ │ │ ├── auth.js # /register, /login
+│ │ │ ├── urls.js # CRUD for URLs
+│ │ │ ├── analytics.js # /analytics/:id
+│ │ │ └── redirect.js # /:shortCode
+│ │ └── services/
+│ │ ├── cache.js # Redis cache logic
+│ │ └── shortener.js # Short code generation
+│ └── migrations/
+│ └── 001_init.sql # DB schema + indexes
 └── frontend/
 ├── pages/
-│   ├── index.js               # Redirects to login/dashboard
-│   ├── login.js
-│   ├── register.js
-│   ├── dashboard.js           # Main URL management page
-│   └── analytics/[id].js      # Per-URL analytics page
+│ ├── index.js # Redirects to login/dashboard
+│ ├── login.js
+│ ├── register.js
+│ ├── dashboard.js
+│ └── analytics/[id].js
 └── lib/
-└── api.js                 # Axios instance with JWT interceptor
+└── api.js # Axios + JWT interceptor
+
 ## 🗄️ Database Schema
 
 ```sql
@@ -84,20 +89,21 @@ CREATE INDEX idx_clicks_url ON clicks(url_id);      -- analytics queries
 
 ## 🚀 REST API
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | /api/auth/register | No | Register new user |
-| POST | /api/auth/login | No | Login, returns JWT |
-| POST | /api/urls | Yes | Create short URL |
-| GET | /api/urls | Yes | List URLs with search/filter |
-| PUT | /api/urls/:id | Yes | Update URL |
-| DELETE | /api/urls/:id | Yes | Delete URL |
-| GET | /:shortCode | No | Redirect + log click |
-| GET | /api/analytics/:id | Yes | Click analytics |
+| Method | Endpoint           | Auth | Description                  |
+| ------ | ------------------ | ---- | ---------------------------- |
+| POST   | /api/auth/register | No   | Register new user            |
+| POST   | /api/auth/login    | No   | Login, returns JWT           |
+| POST   | /api/urls          | Yes  | Create short URL             |
+| GET    | /api/urls          | Yes  | List URLs with search/filter |
+| PUT    | /api/urls/:id      | Yes  | Update URL                   |
+| DELETE | /api/urls/:id      | Yes  | Delete URL                   |
+| GET    | /:shortCode        | No   | Redirect + log click         |
+| GET    | /api/analytics/:id | Yes  | Click analytics              |
 
 ## ⚙️ Local Setup
 
 ### Prerequisites
+
 - Node.js v20+
 - PostgreSQL 15
 - Redis
