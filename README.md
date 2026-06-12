@@ -45,33 +45,33 @@ Redis PostgreSQL
 
 linkforge/
 ├── backend/
-│ ├── src/
-│ │ ├── config/
-│ │ │ ├── db.js # PostgreSQL connection pool
-│ │ │ └── redis.js # Redis client
-│ │ ├── middleware/
-│ │ │ ├── auth.js # JWT verification
-│ │ │ ├── rateLimiter.js # Redis-based rate limiting
-│ │ │ └── errorHandler.js
-│ │ ├── routes/
-│ │ │ ├── auth.js # /register, /login
-│ │ │ ├── urls.js # CRUD for URLs
-│ │ │ ├── analytics.js # /analytics/:id
-│ │ │ └── redirect.js # /:shortCode
-│ │ └── services/
-│ │ ├── cache.js # Redis cache logic
-│ │ └── shortener.js # Short code generation
-│ └── migrations/
-│ └── 001_init.sql # DB schema + indexes
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── db.js              # PostgreSQL connection pool
+│   │   │   └── redis.js           # Redis client
+│   │   ├── middleware/
+│   │   │   ├── auth.js            # JWT verification
+│   │   │   ├── rateLimiter.js     # Redis-based rate limiting
+│   │   │   └── errorHandler.js
+│   │   ├── routes/
+│   │   │   ├── auth.js            # /register, /login
+│   │   │   ├── urls.js            # CRUD for URLs
+│   │   │   ├── analytics.js       # /analytics/:id
+│   │   │   └── redirect.js        # /:shortCode
+│   │   └── services/
+│   │       ├── cache.js           # Redis cache logic
+│   │       └── shortener.js       # Short code generation
+│   └── migrations/
+│       └── 001_init.sql           # DB schema + indexes
 └── frontend/
 ├── pages/
-│ ├── index.js # Redirects to login/dashboard
-│ ├── login.js
-│ ├── register.js
-│ ├── dashboard.js
-│ └── analytics/[id].js
+│   ├── index.js               # Redirects to login/dashboard
+│   ├── login.js
+│   ├── register.js
+│   ├── dashboard.js
+│   └── analytics/[id].js
 └── lib/
-└── api.js # Axios + JWT interceptor
+└── api.js                 # Axios + JWT interceptor
 
 ## 🗄️ Database Schema
 
